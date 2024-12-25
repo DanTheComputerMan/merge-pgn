@@ -22,6 +22,7 @@ def main():
             game = chess.pgn.read_game(pgn)
 
     master_node = chess.pgn.Game()
+    master_node.headers = games[0].headers
 
     mlist = []
     for game in games:
@@ -40,6 +41,10 @@ def main():
                     continue
                 elif node.move not in list(newmoves):
                     nvnode = vnode.add_variation(node.move)
+                    if len(node.comment) > 0:
+                        nvnode.comment = node.comment
+                    if len(node.nags) > 0:
+                        nvnode.nags = node.nags
                     if len(node.variations) > 0:
                         done = False
                     newvars.append((nvnode, node.variations))
